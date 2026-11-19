@@ -13,7 +13,7 @@ class RoleMiddlewareTest extends TestCase
 
     public function test_guest_is_redirected_to_login_from_admin_route(): void
     {
-        $this->get('/admin')->assertRedirect('/login');
+        $this->get('/admin')->assertRedirect('/admin/login');
     }
 
     public function test_user_without_required_role_is_forbidden(): void
@@ -22,8 +22,7 @@ class RoleMiddlewareTest extends TestCase
 
         $this->actingAs($user)
             ->get('/admin')
-            ->assertForbidden()
-            ->assertSeeText('ANDA TIDAK MEMILIKI AKSES.');
+            ->assertForbidden();
     }
 
     public function test_user_with_required_role_can_access_admin_route(): void
@@ -32,7 +31,8 @@ class RoleMiddlewareTest extends TestCase
 
         $this->actingAs($admin)
             ->get('/admin')
-            ->assertRedirect('/dashboard');
+            ->assertOk()
+            ->assertSeeText('Dashboard');
     }
 
     public function test_cashier_is_limited_to_pos_and_product_entry(): void

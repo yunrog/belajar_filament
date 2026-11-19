@@ -34,7 +34,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('brands', BrandController::class);
     Route::resource('categories', CategoryController::class);
 
-    Route::get('/admin', fn () => redirect()->route('dashboard'))->name('admin');
 });
 
 Route::get('/', function () {
